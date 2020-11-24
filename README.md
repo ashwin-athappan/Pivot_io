@@ -39,5 +39,5 @@ Replace the DATABASES dictionary with
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-This will use the sqlite 3 database.
+This will use the sqlite database.
 
