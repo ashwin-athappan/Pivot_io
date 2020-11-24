@@ -2,21 +2,34 @@
 I did this project to understand Django at a greater level
 
 # To Try this out you have to follow the steps: #
+
+## Install Git in your computer
+    https://git-scm.com/
+Once you install it successfully open your commandline or terminal and create a new directory.
+       
+       mkdir dir_name
+Then cd into the directory
+
 ### I'm not sure about the mac commands so make sure you google anything if it doesn't work ###
 
 * Clone the repository into a directory.
+    
+        git clone https://github.com/ashwin-athappan/Pivot_io.git
+        
 * You must have Python 3.8.5 or higher, but beware the packages might not work as intended if the version changes.
 * To create the virtual Environment open you command-line:
-  * Windows:
-    python -m venv 'env_name'.
-  * Mac:
-    python3 source 'env_name'.
+
+      * Windows:
+        python -m venv 'env_name'.
+      * Mac:
+        python3 source 'env_name'.
 * Once the venv is created you must activate it and install the required packages.
 * To activate it:
-  * Windows:
-    Execute the command 'env_name'\Scripts\activate.
-  * Mac:
-    Execute the command source 'env_name'/bin/activate.
+
+      * Windows:
+        Execute the command 'env_name'\Scripts\activate.
+      * Mac:
+        Execute the command source 'env_name'/bin/activate.
     
 #### (This is very important before you proceed. Make sure you activate) ####
 * The requirements.txt is included in the repository so jus execute the command pip install -r requirements.txt
