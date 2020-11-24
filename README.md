@@ -17,7 +17,7 @@ Then cd into the directory
         git clone https://github.com/ashwin-athappan/Pivot_io.git
         
 * You must have Python 3.8.5 or higher, but beware the packages might not work as intended if the version changes.
-* To create the virtual Environment open you command-line:
+* To create the virtual Environment open your command-line:
 
       * Windows:
         python -m venv 'env_name'.
@@ -30,6 +30,8 @@ Then cd into the directory
         Execute the command 'env_name'\Scripts\activate.
       * Mac:
         Execute the command source 'env_name'/bin/activate.
+
+Note the you are in the environment before you proceed any further.
     
 #### (This is very important before you proceed. Make sure you activate) ####
 * The requirements.txt is included in the repository so jus execute the command pip install -r requirements.txt
