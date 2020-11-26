@@ -12,6 +12,7 @@ from django.http import JsonResponse
 
 from userpreferences.models import UserPreference
 from .models import Category, Expense
+from userpreferences.models import UserProfileImage
 
 
 # Create your views here.
@@ -36,10 +37,16 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    user_image = False
+
+    if UserProfileImage.objects.filter(user=request.user):
+        user_image = True
+
     context = {
         'expenses': expenses,
         'symbol': currency_symbol,
         'pages': page_obj,
+        'userimage': user_image,
     }
 
     return render(request, 'expenses/index.html', context=context)
@@ -90,11 +97,16 @@ def expense_summary(request):
     for i in previous_year_data:
         previous_year_expense += i['amount']
 
+    user_image = False
+    if UserProfileImage.objects.filter(user=request.user):
+        user_image = True
+
     context = {
         'current_month_income': current_month_expense,
         'previous_month_income': previous_month_expense,
         'current_year_income': current_year_expense,
         'previous_year_income': previous_year_expense,
+        'userimage': user_image,
     }
 
     return render(request, 'expenses/summary.html', context=context)
@@ -122,10 +134,16 @@ def edit_expense(request, pk):
     category = Category.objects.all()
 
     if request.method == 'GET':
+
+        user_image = False
+        if UserProfileImage.objects.filter(user=request.user):
+            user_image = True
+
         context = {
             'values': expense,
             'categories': category,
             'date': str(expense.date),
+            'userimage': user_image,
         }
 
         if expense.owner == request.user:
@@ -177,16 +195,23 @@ def search_expense(request):
 class Add_Expense(View):
     def get(self, request):
         category = Category.objects.all()
+
+        user_image = False
+        if UserProfileImage.objects.filter(user=request.user):
+            user_image = True
+
         context = {
-            'categories': category
+            'categories': category,
+            'userimage': user_image,
         }
         return render(request, 'expenses/add_expense.html', context=context)
 
     def post(self, request):
         category = Category.objects.all()
+
         context = {
             'categories': category,
-            'values': request.POST
+            'values': request.POST,
         }
         amount = request.POST['amount']
         if not amount:

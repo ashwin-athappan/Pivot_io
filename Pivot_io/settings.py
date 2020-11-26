@@ -136,3 +136,6 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'pivot.io.sender@gmail.com'
 EMAIL_HOST_PASSWORD = 'Ashwin0208'
 EMAIL_PORT = 587
+
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img/profile')

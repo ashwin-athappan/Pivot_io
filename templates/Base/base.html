@@ -25,6 +25,7 @@
             integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/font-awesome/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
@@ -37,15 +38,35 @@
 
     <ul class="navbar-nav px-3" style="display: flex; flex-direction: row; align-items: center">
         <li class="nav-item text-nowrap mb-2">
-            <a class="nav-link" href="">
-                ({{ request.user.username }})
-            </a>
-        </li>
-        <li class="nav-item text-nowrap mt-1 ml-2 mb-2">
-            <form action="{% url 'logout_view' %}" method="POST">
-                {% csrf_token %}
-                <input class="btn btn-sm btn-danger" type="submit" value="Sign Out">
-            </form>
+
+            <div class="action">
+                <div class="profile" onclick="menuToggle();">
+                    {% if userimage %}
+                        <img class="profile-image" src="{{ request.user.userprofileimage.user_image.url }}" alt="">
+                    {% else %}
+                        <img class="profile-image profile-invert" src="{% static 'img/icons8_user.svg' %}" alt="">
+                    {% endif %}
+                </div>
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <div class="username-display text-center">
+                                ({{ request.user.username }})
+                            </div>
+                        </li>
+                        <li>
+                            <a class="" href="{% url 'set-profile-picture' %}">Edit Profile Picture</a>
+                        </li>
+                        <li class="nav-item">
+                            <form class="sign-out-button" action="{% url 'logout_view' %}" method="POST">
+                                {% csrf_token %}
+                                <input class="btn btn-sm btn-danger" type="submit" value="Sign Out">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </li>
     </ul>
 </nav>
@@ -64,6 +85,20 @@
 </div>
 <script>
     feather.replace()
+
+    let menuActive = false;
+
+    function menuToggle() {
+        const toggleMenu = document.querySelector(".menu");
+        if (menuActive) {
+            toggleMenu.classList.remove('active');
+            menuActive = !menuActive;
+        } else {
+            toggleMenu.classList.add('active');
+            menuActive = !menuActive;
+        }
+    }
+
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

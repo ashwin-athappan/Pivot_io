@@ -8,4 +8,12 @@ class UserPreference(models.Model):
     currency = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return str(self.user)+'s preferences'
+        return str(self.user) + "'s preferences"
+
+
+class UserProfileImage(models.Model):
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user_image = models.ImageField(blank=True, upload_to='')
+
+    def __str__(self):
+        return self.user.username + "'s profile image"

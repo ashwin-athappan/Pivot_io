@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
 
-from userpreferences.models import UserPreference
+from userpreferences.models import UserPreference, UserProfileImage
 from .models import Source, Income
 
 
@@ -36,10 +36,15 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    user_image = False
+    if UserProfileImage.objects.filter(user=request.user):
+        user_image = True
+
     context = {
         'income': income,
         'symbol': currency_symbol,
         'pages': page_obj,
+        'userimage': user_image,
     }
 
     return render(request, 'income/index.html', context=context)
@@ -90,11 +95,16 @@ def income_summary(request):
     for i in previous_year_data:
         previous_year_income += i['amount']
 
+    user_image = False
+    if UserProfileImage.objects.filter(user=request.user):
+        user_image = True
+
     context = {
         'current_month_income': current_month_income,
         'previous_month_income': previous_month_income,
         'current_year_income': current_year_income,
         'previous_year_income': previous_year_income,
+        'userimage': user_image,
     }
 
     return render(request, 'income/summary.html', context=context)
@@ -122,10 +132,16 @@ def edit_income(request, pk):
     source = Source.objects.all()
 
     if request.method == 'GET':
+
+        user_image = False
+        if UserProfileImage.objects.filter(user=request.user):
+            user_image = True
+
         context = {
             'values': income,
             'sources': source,
             'date': str(income.date),
+            'userimage': user_image,
         }
 
         if income.owner == request.user:
@@ -178,8 +194,14 @@ def search_income(request):
 class Add_Income(View):
     def get(self, request):
         source = Source.objects.all()
+
+        user_image = False
+        if UserProfileImage.objects.filter(user=request.user):
+            user_image = True
+
         context = {
-            'source': source
+            'source': source,
+            'userimage': user_image,
         }
         return render(request, 'income/add_income.html', context=context)
 
@@ -187,7 +209,7 @@ class Add_Income(View):
         source = Source.objects.all()
         context = {
             'categories': source,
-            'values': request.POST
+            'values': request.POST,
         }
         amount = request.POST['amount']
         if not amount:

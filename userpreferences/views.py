@@ -2,10 +2,12 @@ import json
 import os
 
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-from .models import UserPreference
+from .models import UserPreference, UserProfileImage
 from django.contrib import messages
+from django.contrib.auth.models import User
+from Pivot_io import settings
 
 from expenses.models import Expense
 import requests
@@ -26,8 +28,12 @@ class PreferencesView(View):
 
     def get(self, request):
 
+        user_image = False
+        if UserProfileImage.objects.filter(user=request.user):
+            user_image = True
+
         self.load_json_data()
-        return render(request, 'preferences/index.html', context={'currency_data': self.currency_data})
+        return render(request, 'preferences/index.html', context={'currency_data': self.currency_data, 'userimage': user_image})
 
     def post(self, request):
         # Input from the form
@@ -76,3 +82,29 @@ class PreferencesView(View):
         messages.success(request, 'Changes Saved')
         return render(request, 'preferences/index.html', context={'currency_data': self.currency_data})
 
+
+class UserProfile(View):
+    def get(self, request):
+        user = request.user
+        context = {}
+        try:
+            user_image = UserProfileImage.objects.get(user=user)
+            context = {
+                'userimage': user_image
+            }
+        except Exception:
+            print('image not found')
+
+        return render(request, 'preferences/user_image.html', context=context)
+
+    def post(self, request):
+        selected_image = request.FILES['file']
+
+        if UserProfileImage.objects.filter(user=request.user).exists():
+            u_image = UserProfileImage.objects.get(user=request.user)
+            os.remove(os.path.join(settings.BASE_DIR, f'static/img/profile/{ u_image.user_image}'))
+            u_image.delete()
+
+        u_image = UserProfileImage.objects.create(user=request.user, user_image=selected_image)
+        u_image.save()
+        return redirect('expenses')
