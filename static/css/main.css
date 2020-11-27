@@ -21,13 +21,14 @@
 .income-card {
     text-align: center;
     position: relative;
-    background: rgba(255, 0, 55, 0.5);
+    background: rgba(225, 225, 225, 1);
     font-size: 1.5rem;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    color: rgba(63, 94, 251, 1);
+    color: rgba(0,0,0,1);
     border-radius: 1rem;
     border: 1rem dot-dash black;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
     margin-top: 2rem;
 }
 
