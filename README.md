@@ -55,3 +55,6 @@ Replace the DATABASES dictionary with
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 This will use the sqlite database.
+
+
+User Profile Image Added.
