@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from Pivot_io import settings
 
 from expenses.models import Expense
+from income.models import Income
 import requests
 
 
@@ -59,10 +60,24 @@ class PreferencesView(View):
 
             # Getting all expences of a particular user
             users_expenses = Expense.objects.filter(owner=request.user)
-
+            user_income = Income.objects.filter(owner=request.user)
             # Changing every expense to the desired format
             for expense in users_expenses:
                 convert = Expense.objects.get(pk=expense.id)
+                converted_amount = convert.amount * conversion_rate
+                if conversion_rate < 1:
+                    if converted_amount < 10:
+                        convert.amount = converted_amount
+                    elif 10 < converted_amount < 100:
+                        convert.amount = round(converted_amount, -1)
+                    elif converted_amount > 100:
+                        convert.amount = round(converted_amount, -2)
+                else:
+                    convert.amount = round(converted_amount)
+                convert.save()
+
+            for income in user_income:
+                convert = Income.objects.get(pk=income.id)
                 converted_amount = convert.amount * conversion_rate
                 if conversion_rate < 1:
                     if converted_amount < 10:
