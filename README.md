@@ -46,7 +46,9 @@ You must connect a postgres database and run migrations (google how to run migra
 
 ## Postgres SQL ##
 In the settings.py file in Pivot_io package or simply directory in line 80 you can find the connected database. Replace the data with your respective username and password and the port needs to be changed for postgres by default it is 5432 but if you want to use a different database just check the django compatible database.
-
+        
+    The postgres database name is pivot_io
+    
 ## Switching to the default database sqlite ##
 Replace the DATABASES dictionary with
     
