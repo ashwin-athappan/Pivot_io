@@ -60,3 +60,5 @@ This will use the sqlite database.
 
 
 User Profile Image Added.
+
+The sqlite3 version is available in the sqlite3 branch
